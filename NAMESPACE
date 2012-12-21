@@ -1,0 +1,17 @@
+# Default NAMESPACE created by R
+# Remove the previous line if you edit this file
+
+# Export all names
+export(AlphaNP, AlphaMLE, ParMLE, JMLE, Qrefine, CDL)
+
+# Import all packages listed as Imports or Depends
+import(
+  BB,
+  R.oo
+)
+
+# Register the S3Methods
+S3method(plot, AlphaNP)
+S3method(plot, AlphaMLE)
+S3method(plot, JMLE)
+S3method(plot, Qrefine)
