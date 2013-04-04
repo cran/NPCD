@@ -28,12 +28,11 @@ Qrefine(Y, Q, gate="AND", max.ite = 50)
 }
 
 \seealso{
-\code{\link{AlphaNP}}, \code{\link{plot.Qrefine}}
+\code{\link{AlphaNP}}, \code{\link{print.Qrefine}}, \code{\link{plot.Qrefine}}
 }
 
 \references{
-Chiu, C. Y. (2012). Statistical Refinement of the Q-matrix in Cognitive Diagnosis. \emph{Unpublished
-manuscript}.
+Chiu, C. Y. (In press). Statistical Refinement of the Q-matrix in Cognitive Diagnosis. \emph{Applied Psychological Measurement}.
 }
 
 \examples{
@@ -71,5 +70,6 @@ Q_mis[1:3, 1] <- 1 - Q_mis[1:3, 1]
 # Run Qrefine and create diagnostic plots
 
 Qrefine.out <- Qrefine(data, Q_mis, gate="AND", max.ite=50)
+print(Qrefine.out)
 plot(Qrefine.out)
 }

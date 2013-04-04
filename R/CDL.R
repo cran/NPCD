@@ -14,7 +14,7 @@
 #          NIDA --- par$slip: a vector of slip parameters for each attributes #
 #                   par$guess: a vector of slip parameters for each attributes#
 # (4) alpha: a vector of attribute profile.                                   #
-# (5) model: "DINA", "NIDA", "DINO"                                           #
+# (5) model: "DINA", "DINO", "NIDA"                                           #
 #                                                                             #
 # Output:                                                                     #
 # (1) loglike: the log likelihood for the given data.                         #
@@ -29,6 +29,8 @@ CDL <- function(Y, Q, par, alpha, model="DINA", undefined.flag){
   
   par$slip[par$slip == 0] <- 0.001
   par$guess[par$guess == 0] <- 0.001
+  par$slip[par$slip == 1] <- 0.999
+  par$guess[par$guess == 1] <- 0.999
   
   if (model == "DINA") 
   {
@@ -37,7 +39,7 @@ CDL <- function(Y, Q, par, alpha, model="DINA", undefined.flag){
     loglike.vec <- (Y[select] * ita[select] * log(1-par$slip[select]) 
                    + (1 - Y[select]) * ita[select] * log(par$slip[select]) 
                    + Y[select] * (1 - ita[select]) * log(par$guess[select]) 
-                   + (1 - Y[select]) * (1 - ita[select]) * log(1 - par$guess[select])) 
+                   + (1 - Y[select]) * (1 - ita[select]) * log(1 - par$guess[select]))     
     loglike <- sum(loglike.vec)   
 
   } else if (model == "DINO")
@@ -58,7 +60,7 @@ CDL <- function(Y, Q, par, alpha, model="DINA", undefined.flag){
       P <- prod(((1 - par$slip) ^ alpha * par$guess ^ (1 - alpha)) ^ Q[j, ])
       loglike <- loglike + Y[j] * log(P) + (1 - Y[j]) * log(1 - P)
     }
-    
+        
   } else
   {
     return(warning("Model specification is not valid."))

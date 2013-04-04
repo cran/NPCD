@@ -6,14 +6,16 @@
   This function returns joint maximum likelihood estimates of item parameters and examinee attribute profiles in cognitive diagnostic models. The algorithm starts from the nonparametric estimation of attribute profiles, implemented by the \code{AlphaNP} function, and then iteratively estimates item parameters and attribute profiles using conditional maximum likelihood estimation until the algorithm converges. Currently supported models include the DINA model, the DINO model, and the NIDA model.}
 
 \usage{
-JMLE(Y, Q, model = "DINA", conv.crit.par = 0.001, conv.crit.att = 0.01, max.ite = 100)
+JMLE(Y, Q, model = "DINA", NP.method = "Weighted", conv.crit.par = 0.001, conv.crit.att = 0.01, max.ite = 100)
 }
 \arguments{
   \item{Y}{A matrix of binary responses. Rows represent persons and columns represent items. 1=correct, 0=incorrect.
 }
   \item{Q}{The Q-matrix of the test. Rows represent items and columns represent attributes. 1=attribute required by the item, 0=attribute not required by the item.
 }
-  \item{model}{Currently support two models: \code{"DINA"}, \code{"DINO"}, and \code{"NIDA"}. The default is \code{"DINA"}.
+  \item{model}{Currently support three models: \code{"DINA"}, \code{"DINO"}, and \code{"NIDA"}. The default is \code{"DINA"}.
+}
+  \item{NP.method}{The method of the nonparametric estimation in the initial stage. \code{"Hamming"}: the plain Hamming distance method; \code{"Weighted"}: the Hamming distance weighted by inversed item variance; \code{"Panelized"}: the Hamming distance weighted by inversed item variance and specified panelizing weights for guess and slip. The default is \code{"Weighted"}.
 }
   \item{conv.crit.par}{The critical value for the maximum absolute change in all item parameters values to determine convergence.
 }
@@ -25,16 +27,17 @@ JMLE(Y, Q, model = "DINA", conv.crit.par = 0.001, conv.crit.att = 0.01, max.ite 
 
 \value{
   \item{alpha.est}{JMLE estimates of examinee attribute profiles. Rows represent persons and columns represent attributes. 1=examinee masters the attribute, 0=examinee does not master the attribute.}
-  \item{par.est}{JMLE estimates of item parameters, including \code{par.est$slip} and \code{par.est$guess}.}
+  \item{par.est}{JMLE estimates of item parameters, including \code{par.est$slip}, \code{par.est$guess}, \code{par.est$se.slip}, and \code{par.est$se.guess}.}
   \item{undefined.flag}{A binary vector indicating whether the parameters of each item are undefined. 1=undefined, 0=defined.}
   \item{convergence}{A message on whether the algorithm converged.}
   \item{n.ite}{Number of iterations performed.}
   \item{loglike.matrix}{The values for the log-likehood function in the last iteration. Rows represent candidate attribute profiles in the same order with the pattern matrix; columns represent different examinees.}
   \item{NPloss.matrix}{The values for the loss function of the nonparametric estimation of Alpha. Rows represent candidate attribute profiles in the same order with the pattern matrix; columns represent different examinees.}
+  \item{alpha.est.NP}{The estimates of examinee attribute profiles from the initial nonparameteric estimation.}
 }
 
 \seealso{
-\code{\link{AlphaMLE}}, \code{\link{AlphaNP}}, \code{\link{ParMLE}}, \code{\link{plot.JMLE}}
+\code{\link{AlphaMLE}}, \code{\link{AlphaNP}}, \code{\link{ParMLE}}, \code{\link{print.JMLE}},  \code{\link{plot.JMLE}}
 }
 
 \references{
@@ -74,8 +77,7 @@ for (i in 1:nperson) {
 
 JMLE.result <- JMLE(data, Q, model="DINA", conv.crit.par=0.0001, conv.crit.att=0.001, max.ite=100)
 
-# Generate diagnostic plots for the output
-
 nperson <- 1   # Choose an examinee to investigate
+print(JMLE.result)  # Print the estimated item parameters, standard errors, and examinee attribute profiles
 plot(JMLE.result, nperson)   # Plot the sorted loss function of different attribute profiles for this examinee
 }

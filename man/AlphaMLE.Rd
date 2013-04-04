@@ -34,7 +34,7 @@ AlphaMLE(Y, Q, par, model = "DINA", undefined.flag = NULL)
 }
 
 \seealso{
-\code{\link{AlphaNP}}, \code{\link{JMLE}}, \code{\link{plot.AlphaMLE}}
+\code{\link{AlphaNP}}, \code{\link{JMLE}}, \code{\link{print.AlphaMLE}}, \code{\link{plot.AlphaMLE}}
 }
 
 \examples{
@@ -68,8 +68,7 @@ for (i in 1:nperson) {
 
 alpha.est.MLE <- AlphaMLE(data, Q, my.par, model="DINA", undefined.flag=NULL)
 
-# Generate diagnostic plots for the output
-
 nperson <- 1   # Choose an examinee to investigate
+print(alpha.est.MLE)   # Print the estimated examinee attribute profiles
 plot(alpha.est.MLE, nperson)   # Plot the sorted log-likelihood function of different attribute profiles for this examinee
 }

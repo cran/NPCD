@@ -10,7 +10,7 @@
 #        represent persons, and columns represent items.                      #
 # (2) Q: the Q-matrix of the test. Rows represent items, and colums represent #
 #        attributes.                                                          #
-# (3) model: currently has three options, "DINA", "NIDA", "DINO".             #
+# (3) model: currently has three options, "DINA", "DINO", and "NIDA".         #
 # (4) conv.crit.par: the critical value for the change in item parameter      #
 #                    values to determine convergence                          #      
 # (5) conv.crit.att: the critical value for the percentage of attributes that #
@@ -23,7 +23,7 @@
 ###############################################################################
 
 
-JMLE <- function(Y, Q, model="DINA", conv.crit.par=0.001, conv.crit.att=0.01, max.ite=100) {
+JMLE <- function(Y, Q, model="DINA", NP.method="Weighted", conv.crit.par=0.001, conv.crit.att=0.01, max.ite=100) {
 
   #####
   # 1 #
@@ -40,7 +40,7 @@ JMLE <- function(Y, Q, model="DINA", conv.crit.par=0.001, conv.crit.att=0.01, ma
   # 2 #
   ##### Step 1: Initial model-free estimation of the ability pattern 
   
-  if (model %in% c("DINA", "NIDA"))
+  if (model %in% c("DINA", "NIDA", "GNIDA"))
   {
     gate="AND"
   } else if (model == "DINO")
@@ -51,7 +51,7 @@ JMLE <- function(Y, Q, model="DINA", conv.crit.par=0.001, conv.crit.att=0.01, ma
     return(warning("Model specification is not valid."))
   }
   
-  alpha.est.NP <- AlphaNP(Y, Q, gate=gate, method="Hamming", wg=1, ws=1)
+  alpha.est.NP <- AlphaNP(Y, Q, gate=gate, method=NP.method, wg=1, ws=1)
   alpha.est <- alpha.est.NP$alpha.est
   loss.matrix <- alpha.est.NP$loss.matrix
   
@@ -65,7 +65,7 @@ JMLE <- function(Y, Q, model="DINA", conv.crit.par=0.001, conv.crit.att=0.01, ma
   while ((max(d.par) > conv.crit.par || d.att > conv.crit.att || d.undefined > 0) & ite < max.ite)
   {
     ite <- ite + 1
-    cat(paste(paste("Iteration:", ite), "\n"))
+    #cat(paste(paste("Iteration:", ite), "\n"))
     nitem <- dim(Y)[2]
    
     # MLE of item parameters
@@ -73,13 +73,13 @@ JMLE <- function(Y, Q, model="DINA", conv.crit.par=0.001, conv.crit.att=0.01, ma
     if (model == "DINA" || model == "DINO") 
     {
       temp <- ParMLE(Y, Q, alpha.est, model)
-      par.est <- list(slip=temp$slip, guess=temp$guess)
+      par.est <- list(slip=temp$slip, guess=temp$guess, se.slip=temp$se.slip, se.guess=temp$se.guess)
       undefined.flag <- 1 - ((1 - is.infinite(par.est$slip)) * (1 - is.infinite(par.est$guess)) 
                              * (1 - is.nan(par.est$slip)) * (1 - is.nan(par.est$guess)))
     } else if (model == "NIDA") 
     {
       temp <- ParMLE(Y, Q, alpha.est, model)
-      par.est <- list(slip=temp$slip, guess=temp$guess)
+      par.est <- list(slip=temp$slip, guess=temp$guess, se.slip=temp$se.slip, se.guess=temp$se.guess)
       undefined.flag <- rep(0, nitem)
     } else 
     {
@@ -110,7 +110,7 @@ JMLE <- function(Y, Q, model="DINA", conv.crit.par=0.001, conv.crit.att=0.01, ma
   conv <- "Convergence criteria met."
   if (ite == max.ite) conv <- "Maximum iteration reached."
 
-  output <- list(alpha.est=alpha.est, par.est=par.est, undefined.flag=undefined.flag, convergence=conv, n.ite=ite, loglike.matrix=loglike.matrix, NPloss.matrix=loss.matrix, alpha.est.NP=alpha.est)
+  output <- list(alpha.est=alpha.est, par.est=par.est, undefined.flag=undefined.flag, convergence=conv, n.ite=ite, loglike.matrix=loglike.matrix, NPloss.matrix=loss.matrix, alpha.est.NP=alpha.est.NP$alpha.est, NP.method=NP.method, model=model)
   class(output) <- "JMLE"
   return(output)
   

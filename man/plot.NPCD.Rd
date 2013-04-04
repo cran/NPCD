@@ -1,4 +1,4 @@
-\name{DiagnosticPlots}
+\name{plot.NPCD}
 \alias{plot.AlphaNP}
 \alias{plot.AlphaMLE}
 \alias{plot.JMLE}

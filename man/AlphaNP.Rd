@@ -33,11 +33,12 @@ AlphaNP(Y, Q, gate="AND", method = "Hamming", wg = 1, ws = 1)
 }
 
 \seealso{
-\code{\link{AlphaMLE}}, \code{\link{JMLE}}, \code{\link{plot.AlphaNP}}
+\code{\link{AlphaMLE}}, \code{\link{JMLE}}, \code{\link{print.AlphaNP}}, \code{\link{plot.AlphaNP}}
 }
 
 \references{
 Chiu, C. (2011). \emph{Flexible approaches to cognitive diagnosis: nonparametric methods and small sample techniques}. Invited session of cognitive diagnosis and item response theory at 2011 Joint Statistical Meeting.
+
 Chiu, C. Y., & Douglas, J. A. (In press). A model-free approach to cognitive diagnosis by proximity
 to ideal response patterns. \emph{Journal of Classification}.
 }
@@ -75,8 +76,7 @@ alpha.est.NP.H <- AlphaNP(data, Q, gate="AND", method="Hamming")
 alpha.est.NP.W <- AlphaNP(data, Q, gate="AND", method="Weighted")
 alpha.est.NP.P <- AlphaNP(data, Q, gate="AND", method="Panelized", wg=2, ws=1)
 
-# Generate diagnostic plots for the output
-
 nperson <- 1   # Choose an examinee to investigate
+print(alpha.est.NP.H) # Print the estimated examinee attribute profiles
 plot(alpha.est.NP.H, nperson)   # Plot the sorted loss function of different attribute profiles for this examinee
 }

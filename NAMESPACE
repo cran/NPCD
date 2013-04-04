@@ -11,6 +11,11 @@ import(
 )
 
 # Register the S3Methods
+S3method(print, AlphaNP)
+S3method(print, AlphaMLE)
+S3method(print, ParMLE)
+S3method(print, JMLE)
+S3method(print, Qrefine)
 S3method(plot, AlphaNP)
 S3method(plot, AlphaMLE)
 S3method(plot, JMLE)

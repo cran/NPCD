@@ -16,7 +16,8 @@
 #          NIDA --- par$slip: a vector of slip parameters for each attributes #
 #                   par$guess: a vector of slip parameters for each attributes#
 # (4) model: "DINA", "DINO", "NIDA"                                           #
-# (5) undefined.flag: a binary vector indicating whether the parameters of    #
+# (5) NP.method: "Hamming", "Weighted", "Panelized"                           #
+# (6) undefined.flag: a binary vector indicating whether the parameters of    #
 #                     each item are undefined (1=undefined, 0=defined).       #
 #                                                                             #
 # Output:                                                                     #

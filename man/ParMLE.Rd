@@ -21,14 +21,14 @@ ParMLE(Y, Q, alpha, model = "DINA")
 }
 
 \value{
-  \item{slip}{A vector of slipping parameters.}
-  \item{guess}{A vector of guessing parameters.}
-  \item{se.slip}{A vector of standard error for slipping parameters.}
-  \item{se.guess}{A vector of standard error for guessing parameters.}
+  \item{slip}{A vector of the estimates of the slipping parameters.}
+  \item{guess}{A vector of the estimates of the guessing parameters.}
+  \item{se.slip}{A vector of the standard error for the slipping parameters.}
+  \item{se.guess}{A vector of the standard error for the guessing parameters.}
 }
 
 \seealso{
-  \code{\link{JMLE}} 
+  \code{\link{JMLE}}, \code{\link{print.ParMLE}}  
 }
 
 \examples{
@@ -60,5 +60,7 @@ for (i in 1:nperson) {
 
 # Using the function to estimate item parameters
 
-ParMLE(data, Q, alpha, model="DINA")
+parMLE.result <- ParMLE(data, Q, alpha, model="DINA")
+print(parMLE.result)  # Print the estimated item parameters and standard errors
+
 }
