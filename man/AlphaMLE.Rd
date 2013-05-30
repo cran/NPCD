@@ -7,7 +7,7 @@
 }
 
 \usage{
-AlphaMLE(Y, Q, par, model = "DINA", undefined.flag = NULL)
+AlphaMLE(Y, Q, par, model = c("DINA", "DINO", "NIDA"), undefined.flag = NULL)
 }
 
 \arguments{
@@ -29,8 +29,10 @@ AlphaMLE(Y, Q, par, model = "DINA", undefined.flag = NULL)
 
 \value{
   \item{alpha.est}{A matrix of estimated attribute profiles for all examinees. Rows represent persons and columns represent attributes. 1=examinee masters the attribute, 0=examinee does not master the attribute.}
+  \item{est.class}{The class number (row index in \code{pattern}) for each person's attribute profile. It can also be used for locating the log-likelihood value in \code{loglike.matrix} for the estimated attribute profile for each person.}
+  \item{n.tie}{Number of ties in the log-likelihood among the candidate attribute profiles for each person. When we encounter ties, one of the tied attribute profiles is randomly chosen.}
   \item{pattern}{All possible attribute profiles in the search space.}
-  \item{loglike.matrix}{The matrix of the log-likehood function values. Rows represent candidate attribute profiles in the same order with the pattern matrix; columns represent different examinees.}
+  \item{loglike.matrix}{The matrix of the log-likelihood function values. Rows represent candidate attribute profiles in the same order with the pattern matrix; columns represent different examinees.}
 }
 
 \seealso{
@@ -70,5 +72,6 @@ alpha.est.MLE <- AlphaMLE(data, Q, my.par, model="DINA", undefined.flag=NULL)
 
 nperson <- 1   # Choose an examinee to investigate
 print(alpha.est.MLE)   # Print the estimated examinee attribute profiles
-plot(alpha.est.MLE, nperson)   # Plot the sorted log-likelihood function of different attribute profiles for this examinee
+plot(alpha.est.MLE, nperson)   # Plot the sorted log-likelihood function 
+#of different attribute profiles for this examinee
 }

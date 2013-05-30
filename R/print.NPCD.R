@@ -99,6 +99,8 @@ setMethodS3("print", "JMLE", function(x, ...)
   colnames(out) <- c("slip","SE.slip","guess","SE.guess")
   cat(paste(paste("Model:", x$model), "\n"))
   cat("Method: JMLE\n")
+  cat(paste(paste("Convergence:", x$conv), "\n"))
+  cat(paste(paste("Number of iterations:", x$n.ite), "\n"))
   cat("The estimated item parameters\n")  
   print(out)
   

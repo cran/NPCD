@@ -8,7 +8,7 @@
 }
 
 \description{
-  This package performs an array of nonparametric estimation methods for cognitive diagnostic models, including nonparametric estimation of examinee attribute profiles, joint maximum likelihood estimation (JMLE) of examinee attribute profiles and item parameters, and nonparametric refinement of the Q-matrix, as well as parametric algorithms such as maximum likelihood estimation (MLE) of examinee attribute profiles given item parameters and maximum likelihood estimation (MLE) of item parameters given examinee attribute profiles.
+  This package implements an array of nonparametric estimation methods for cognitive diagnostic models, including nonparametric estimation of examinee attribute profiles, joint maximum likelihood estimation (JMLE) of examinee attribute profiles and item parameters, and nonparametric refinement of the Q-matrix, as well as parametric algorithms such as maximum likelihood estimation (MLE) of examinee attribute profiles given item parameters and maximum likelihood estimation (MLE) of item parameters given examinee attribute profiles.
 }
 
 \details{
@@ -29,12 +29,13 @@ The aim of the NPCD package is to provide an easy-to-use tool to analyze cogniti
 }
 
 \author{
-  Yi Zheng, Chia-Yi Chiu
+  Yi Zheng, Chia-Yi Chiu.
+  
   Maintainer: Yi Zheng <yizheng1@illinois.edu>
 }
 
 \references{
-  Chiu, C. (2011). \emph{Flexible approaches to cognitive diagnosis: nonparametric methods and small sample techniques}. Invited session of cognitive diagnosis and item response theory at 2011 Joint Statistical Meeting.
+  Chiu, C. Y. (2011). \emph{Flexible approaches to cognitive diagnosis: nonparametric methods and small sample techniques}. Invited session of cognitive diagnosis and item response theory at 2011 Joint Statistical Meeting.
   
   Chiu, C. Y., & Douglas, J. A. (In press). A model-free approach to cognitive diagnosis by proximity to ideal response patterns. \emph{Journal of Classification}.
   

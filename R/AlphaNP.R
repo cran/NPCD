@@ -16,11 +16,11 @@
 #                 attributes in order to answer an item correctly             #
 # (4) method: "Hamming", the plain hamming distance method;                   #
 #             "Weighted", the hamming distance weighted by inversed variance  #
-#             "Panelized", the hamming distance weighted by inversed variance #
-#                          and specified panelizing weights for guess and slip#
-# Additional input for the "panelized" method:                                #
-# (5) wg = weight assigned to guess in DINA model and DINO model              #
-# (6) ws = weight assigned to slip in DINA model and DINO model               #
+#             "Penalized", the hamming distance weighted by inversed variance #
+#                          and specified penalizing weights for guess and slip#
+# Additional input for the "penalized" method:                                #
+# (5) wg = weight assigned to guess                                           #
+# (6) ws = weight assigned to slip                                            #
 #                                                                             #
 # Output:                                                                     #
 # (1) alpha.est: estimated ability patterns                                   #
@@ -39,18 +39,20 @@
 #                                                                             #
 ###############################################################################
 
-AlphaNP <- function(Y, Q, gate="AND", method="Hamming", wg=1, ws=1) {
+AlphaNP <- function(Y, Q, gate=c("AND", "OR"), method=c("Hamming", "Weighted", "Penalized"), wg=1, ws=1) {
   
   #####
   # 1 #
   ##### Check dimension consistency and convert data to the right formats 
   
+  Y <- as.matrix(Y)
+  Q <- as.matrix(Q)
   check <- NULL
   check <- CheckInput(Y, Q)  
   if (!is.null(check)) return(warning(check))
-  
-  Y <- as.matrix(Y)
-  Q <- as.matrix(Q)
+
+  gate <- match.arg(gate)
+  method <- match.arg(method)
   
   #####
   # 2 #
@@ -95,11 +97,11 @@ AlphaNP <- function(Y, Q, gate="AND", method="Hamming", wg=1, ws=1) {
     p.bar <- apply(Y, 2, mean)
     weight <- 1 / (p.bar * (1 - p.bar))
     ws <- wg <- 1
-  } else if (method == "Panelized") 
+  } else if (method == "Penalized") 
   {
     p.bar <- apply(Y, 2, mean)
     weight <- 1 / (p.bar * (1 - p.bar))    
-    if (ws == wg) warning("Panelzing weights for guess and slip are the same --> equivalent with the \"Weighted\" method.")
+    if (ws == wg) warning("Penalzing weights for guess and slip are the same --> equivalent with the \"Weighted\" method.")
   } else 
   {
     return(warning("Method specification not valid.")) 
@@ -108,7 +110,7 @@ AlphaNP <- function(Y, Q, gate="AND", method="Hamming", wg=1, ws=1) {
   loss.matrix <- matrix(NA, nrow=M, ncol=nperson)
   est.class <- NULL
   est.pattern <- NULL
-  n.tie <-0
+  n.tie <- rep(0, nperson)
   
   for (i in 1:nperson)
   {
@@ -120,7 +122,7 @@ AlphaNP <- function(Y, Q, gate="AND", method="Hamming", wg=1, ws=1) {
 
     if (length(min.loss) != 1) 
     {
-      n.tie <- n.tie + 1
+      n.tie[i] <- length(min.loss)
       min.loss <- sample(min.loss, 1, prob=rep(1 / length(min.loss), length(min.loss))) 
     }
     

@@ -16,7 +16,7 @@
 #          NIDA --- par$slip: a vector of slip parameters for each attributes #
 #                   par$guess: a vector of slip parameters for each attributes#
 # (4) model: "DINA", "DINO", "NIDA"                                           #
-# (5) NP.method: "Hamming", "Weighted", "Panelized"                           #
+# (5) NP.method: "Hamming", "Weighted", "Penalized"                           #
 # (6) undefined.flag: a binary vector indicating whether the parameters of    #
 #                     each item are undefined (1=undefined, 0=defined).       #
 #                                                                             #
@@ -29,18 +29,19 @@
 #                                                                             #
 ###############################################################################
 
-AlphaMLE <- function(Y, Q, par, model="DINA", undefined.flag=NULL) {
+AlphaMLE <- function(Y, Q, par, model=c("DINA", "DINO", "NIDA"), undefined.flag=NULL) {
   
   #####
   # 1 #
   ##### Check dimension consistency and convert data to the right formats 
   
+  Y <- as.matrix(Y)
+  Q <- as.matrix(Q) 
   check <- NULL
   check <- CheckInput(Y, Q)  
   if (!is.null(check)) return(warning(check))
   
-  Y <- as.matrix(Y)
-  Q <- as.matrix(Q)
+  model <- match.arg(model)
   
   #####
   # 2 #
@@ -52,6 +53,8 @@ AlphaMLE <- function(Y, Q, par, model="DINA", undefined.flag=NULL) {
   pattern <-AlphaPermute(natt)
   loglike.matrix <- matrix(NA, dim(pattern)[1], nperson)  
   alpha.est <- matrix(NA, nperson, natt)
+  est.class <- rep(NA, nperson)
+  n.tie <- rep(0, nperson)
   
   for (i in 1:nperson)
   {
@@ -65,13 +68,15 @@ AlphaMLE <- function(Y, Q, par, model="DINA", undefined.flag=NULL) {
     loglike.matrix[, i] <- loglike
     
     if (length(which(loglike == max(loglike))) == 1){
-      alpha.est[i, ] <- pattern[which(loglike == max(loglike)), ]
+      est.class[i] <- which(loglike == max(loglike))
     } else {
-      alpha.est[i, ] <- pattern[sample(which(loglike == max(loglike)), 1), ]
-    }     
+      n.tie[i] <- length(which(loglike == max(loglike)))
+      est.class[i] <- sample(which(loglike == max(loglike)), 1)      
+    }
+    alpha.est[i, ] <- pattern[est.class[i], ]
   }  
   
-  output <- list(alpha.est=alpha.est, pattern=pattern, loglike.matrix=loglike.matrix)
+  output <- list(alpha.est=alpha.est, est.class=est.class, pattern=pattern, n.tie=n.tie, loglike.matrix=loglike.matrix)
   class(output) <- "AlphaMLE"
   return(output)
 }

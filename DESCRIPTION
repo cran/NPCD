@@ -1,7 +1,7 @@
 Package: NPCD
 Type: Package
-Version: 1.0-2
-Date: 2013-4-4
+Version: 1.0-3
+Date: 2013-5-30
 Title: Nonparametric Methods for Cognitive Diagnosis
 Authors@R: c(person("Yi", "Zheng", role = c("aut", "cre"), email =
         "yizheng1@illinois.edu"), person("Chia-Yi", "Chiu", role =
@@ -25,6 +25,6 @@ LazyLoad: yes
 LazyData: yes
 License: LGPL (>= 2.1)
 Repository: CRAN
-Packaged: 2013-04-04 20:42:01 UTC; Isabelle
+Packaged: 2013-05-30 05:56:29 UTC; Isabelle
 NeedsCompilation: no
-Date/Publication: 2013-04-05 01:11:25
+Date/Publication: 2013-05-30 08:27:15

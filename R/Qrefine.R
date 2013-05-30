@@ -29,8 +29,9 @@
 #                                                                             #
 ###############################################################################
 
-Qrefine <- function(Y, Q, gate="AND", max.ite=50)
+Qrefine <- function(Y, Q, gate=c("AND", "OR"), max.ite=50)
 {
+  gate <- match.arg(gate)
   initial.Q <- Q
   nitem <- dim(Q)[1]
   natt <- dim(Q)[2]

@@ -6,7 +6,7 @@
 }
 
 \usage{
-Qrefine(Y, Q, gate="AND", max.ite = 50)
+Qrefine(Y, Q, gate=c("AND", "OR"), max.ite = 50)
 }
 \arguments{
   \item{Y}{A matrix of binary responses. Rows represent persons and columns represent items. 1=correct, 0=incorrect.
@@ -40,9 +40,11 @@ Chiu, C. Y. (In press). Statistical Refinement of the Q-matrix in Cognitive Diag
 
 natt <- 3
 nitem <- 4
-nperson <- 5
+nperson <- 16
 Q <- rbind(c(1, 0, 0), c(0, 1, 0), c(0, 0, 1), c(1, 1, 1))
-alpha <- rbind(c(0, 0, 0), c(1, 0, 0), c(0, 1, 0), c(0, 0, 1), c(1, 1, 1))
+alpha <- rbind(c(0, 0, 0), c(1, 0, 0), c(0, 1, 0), c(0, 0, 1), 
+  c(1, 1, 0), c(1, 0, 1), c(0, 1, 1), c(1, 1, 1))
+alpha <- rbind(alpha, alpha)
 
 # Generate DINA model-based response data
 
@@ -65,7 +67,7 @@ for (i in 1:nperson) {
 # Generate misspecified Q-matrix
 
 Q_mis <- Q
-Q_mis[1:3, 1] <- 1 - Q_mis[1:3, 1]
+Q_mis[c(1,2), 1] <- 1 - Q_mis[c(1,2), 1]
 
 # Run Qrefine and create diagnostic plots
 

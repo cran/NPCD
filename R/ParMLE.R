@@ -23,18 +23,19 @@
 ###############################################################################
 
 
-ParMLE <- function(Y, Q, alpha, model="DINA")
+ParMLE <- function(Y, Q, alpha, model=c("DINA", "DINO", "NIDA"))
 {
   #####
   # 1 #
   ##### Check dimension consistency and convert data to the right formats 
   
+  Y <- as.matrix(Y)
+  Q <- as.matrix(Q)
   check <- NULL
   check <- CheckInput(Y, Q)  
   if (!is.null(check)) return(warning(check))
   
-  Y <- as.matrix(Y)
-  Q <- as.matrix(Q)
+  model <- match.arg(model)
   
   #####
   # 2 #
@@ -82,7 +83,7 @@ ParMLE <- function(Y, Q, alpha, model="DINA")
         
   } else if (model == "NIDA")
   {
-    slip <- se.slip <- guess <- se.guess <- matrix(NA, 1, natt)
+    slip <- se.slip <- guess <- se.guess <- matrix(NA, natt, 1)
 
     Like <- function(par, alpha, Q, Y)
     {
@@ -123,6 +124,7 @@ ParMLE <- function(Y, Q, alpha, model="DINA")
     p0 <- rep(0.3, 2 * natt)
     #ans <- BBoptim(par=p0, fn=Like, gr=NULL, alpha=alpha, Q=Q, Y=Y, lower=0, upper=1, control=list(maximize=TRUE))
     ans <- BBsolve(par=p0, fn=derLike, alpha=alpha, Q=Q, Y=Y)
+    #ans <- dfsane(par=p0, fn=derLike, tol=1.e-04, alpha=alpha, Q=Q, Y=Y)
     slip <- ans$par[1:natt]
     guess <- ans$par[(natt + 1):(2 * natt)]
     

@@ -7,7 +7,7 @@
 }
 
 \usage{
-ParMLE(Y, Q, alpha, model = "DINA")
+ParMLE(Y, Q, alpha, model = c("DINA", "DINO", "NIDA"))
 }
 \arguments{
   \item{Y}{A matrix of binary responses. Rows represent persons and columns represent items. 1=correct, 0=incorrect.

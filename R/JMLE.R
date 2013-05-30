@@ -11,9 +11,17 @@
 # (2) Q: the Q-matrix of the test. Rows represent items, and colums represent #
 #        attributes.                                                          #
 # (3) model: currently has three options, "DINA", "DINO", and "NIDA".         #
-# (4) conv.crit.par: the critical value for the change in item parameter      #
+# (4) NP.method: "Hamming", the plain hamming distance method;                #
+#             "Weighted", the hamming distance weighted by inversed variance  #
+#             "Penalized", the hamming distance weighted by inversed variance #
+#                          and specified penalizing weights for guess and slip#
+# Additional input for the "penalized" NP.method:                             #
+# (5) wg = weight assigned to guess                                           #
+# (6) ws = weight assigned to slip                                            #
+
+# (7) conv.crit.par: the critical value for the change in item parameter      #
 #                    values to determine convergence                          #      
-# (5) conv.crit.att: the critical value for the percentage of attributes that #
+# (8) conv.crit.att: the critical value for the percentage of attributes that #
 #                    are changed to determine convergence                     #
 #                                                                             #
 # Outputs:                                                                    #
@@ -23,18 +31,20 @@
 ###############################################################################
 
 
-JMLE <- function(Y, Q, model="DINA", NP.method="Weighted", conv.crit.par=0.001, conv.crit.att=0.01, max.ite=100) {
+JMLE <- function(Y, Q, model=c("DINA", "DINO", "NIDA"), NP.method=c("Weighted", "Hamming", "Penalized"), wg=1, ws=1, conv.crit.par=0.001, conv.crit.att=0.01, max.ite=100) {
 
   #####
   # 1 #
   ##### Check dimension consistency and convert data to the right formats 
     
+  Y <- as.matrix(Y)
+  Q <- as.matrix(Q)
   check <- NULL
   check <- CheckInput(Y, Q)  
   if (!is.null(check)) return(warning(check))
   
-  Y <- as.matrix(Y)
-  Q <- as.matrix(Q)
+  model <- match.arg(model)
+  NP.method <- match.arg(NP.method)
   
   #####
   # 2 #
@@ -62,10 +72,9 @@ JMLE <- function(Y, Q, model="DINA", NP.method="Weighted", conv.crit.par=0.001, 
   d.par <- d.att <- d.undefined <- 1
   ite <- 0
   
-  while ((max(d.par) > conv.crit.par || d.att > conv.crit.att || d.undefined > 0) & ite < max.ite)
+  while ((max(d.par) > conv.crit.par || d.undefined > 0 || (d.att > conv.crit.att & max(d.par) > 0)) & ite < max.ite)
   {
     ite <- ite + 1
-    #cat(paste(paste("Iteration:", ite), "\n"))
     nitem <- dim(Y)[2]
    
     # MLE of item parameters
@@ -92,6 +101,13 @@ JMLE <- function(Y, Q, model="DINA", NP.method="Weighted", conv.crit.par=0.001, 
     alpha.est <- alpha.out.MLE$alpha.est
     loglike.matrix <- alpha.out.MLE$loglike.matrix
     
+    # Compute loglikelihood
+    
+    loglike <- 0
+    for (i in 1:ncol(loglike.matrix)){
+      loglike <- loglike + loglike.matrix[alpha.out.MLE$est.class[i],i]
+    }
+    
     # Compute changes  
     
     if (ite > 1) 
@@ -105,12 +121,23 @@ JMLE <- function(Y, Q, model="DINA", NP.method="Weighted", conv.crit.par=0.001, 
     par.est.old <- par.est
     alpha.est.old <- alpha.est
     undefined.flag.old <- undefined.flag
+    
+    cat(sprintf("Iteration: %d, loglike = %.5f, diff.par = %.5f, diff.att = %.5f, diff.undefined = %.5f", ite, loglike, max(d.par), d.att, d.undefined))
+    cat("\n")
+#   cat(format(unlist(par.est))); cat("\n")
+#   cat(format(alpha.est[1:5,])); cat("\n")
+#   cat(format(alpha.out.MLE$n.tie)); cat("\n")
   }
   
   conv <- "Convergence criteria met."
   if (ite == max.ite) conv <- "Maximum iteration reached."
-
-  output <- list(alpha.est=alpha.est, par.est=par.est, undefined.flag=undefined.flag, convergence=conv, n.ite=ite, loglike.matrix=loglike.matrix, NPloss.matrix=loss.matrix, alpha.est.NP=alpha.est.NP$alpha.est, NP.method=NP.method, model=model)
+  if (d.att > conv.crit.att) conv <- "Stationary item parameters reached. Estimated attribute profiles subject to random sampling."
+    
+  output <- list(alpha.est=alpha.est, par.est=par.est, n.tie=alpha.out.MLE$n.tie, undefined.flag=undefined.flag, 
+                 loglike=loglike, convergence=conv, n.ite=ite, loglike.matrix=loglike.matrix, 
+                 est.class=alpha.out.MLE$est.class, NP.loss.matrix=loss.matrix, 
+                 NP.alpha.est=alpha.est.NP$alpha.est, NP.method=NP.method, 
+                 NP.est.class=alpha.est.NP$est.class, pattern=alpha.est.NP$pattern, model=model)
   class(output) <- "JMLE"
   return(output)
   

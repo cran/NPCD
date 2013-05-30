@@ -34,6 +34,7 @@ setMethodS3("plot", "AlphaNP", function(x, nperson, cex.main=1, cex.legend=0.8, 
     }
     
     par()
+    on.exit()
     barplot(loss[my.order], main=title, xlab="Alpha", ylab="Loss", names.arg=pattern.name[my.order], 
             density=density.vec[my.order], cex.main=cex.main, las=3)
     legend(x="topleft", legend=c("Estimated Alpha"), density=c(10), cex=cex.legend)
@@ -65,6 +66,7 @@ setMethodS3("plot", "AlphaMLE", function(x, nperson, cex.main=1, ...)
   }
   
   par()
+  on.exit()
   barplot(loglike[my.order], main=title, xlab="Alpha", ylab="-LogLike", names.arg=pattern.name[my.order], 
           density=density.vec[my.order], las=3, cex.main=cex.main)
 }
@@ -94,11 +96,12 @@ setMethodS3("plot", "JMLE", function(x, nperson, cex.main=0.9, ...)
   
   par()
   par(mfrow=c(2, 1))
+  on.exit()
   
   # Loss function in nonparametric estimation
   
   title <- paste(paste("Loss Function of Examinee", nperson), "with Method \'Hamming\'")    
-  barplot(x$NPloss.matrix[, nperson], main=title, xlab="Alpha", ylab="Loss", 
+  barplot(x$NP.loss.matrix[, nperson], main=title, xlab="Alpha", ylab="Loss", 
           names.arg=pattern.name, density=density.vec.NP, las=3, cex.main=cex.main)
   
   # Negative log-likelihood in JMLE estimation
@@ -116,23 +119,24 @@ setMethodS3("plot", "JMLE", function(x, nperson, cex.main=0.9, ...)
 # inputs: (1) x: the output from Qrefine; 
 # outputs: panel plots of each refined item showing the RSS of all candidate q-vectors
 
-setMethodS3("plot", "Qrefine", function(x, filename="Qrefine.plot.png", cex.main=2, cex.lab=2, cex.axis=2, cex.legend=3, ...) 
+setMethodS3("plot", "Qrefine", function(x, filename="Qrefine.plot.png", cex.main=1, cex.lab=1, cex.axis=1, cex.legend=1, ...) 
 {
   pattern <-AlphaPermute(dim(x$modified.Q)[2])
   npattern <- dim(pattern)[1]
   
   nmodified <- length(unique(x$modified.entries[, 1]))
-  ncol <- floor(sqrt(nmodified))
-  nrow <- ceiling(nmodified / ncol)
-  
-  my.fac <- factor(1:(nrow * ncol + 1))
-  
-  png(filename, 960, 1280)
+  #ncol <- floor(sqrt(nmodified))
+  #nrow <- ceiling(nmodified / ncol)
+  #my.fac <- factor(1:(nrow * ncol + 1))
+  nrow <- nmodified + 1
+  my.fac <- factor(1:nrow)
   par()
+  
   par(cex.main=cex.main, cex.lab=cex.lab, cex.axis=cex.axis)
-  par(mar=c(1, 10, 10, 5))
-  par(mfrow=c((nrow + 1), ncol))
-    
+  #par(mfrow=c((nrow + 1), ncol))
+  par(mfrow=c(nrow, 1))
+  on.exit()
+  
   for (fac in my.fac)
   {
     i <- as.numeric(fac)
@@ -175,14 +179,13 @@ setMethodS3("plot", "Qrefine", function(x, filename="Qrefine.plot.png", cex.main
               las=3, angle=angle.vec[my.order], density=density.vec[my.order])
     }else
     {
-      plot(1,ann=F,bty='n',type='n',xaxt='n',yaxt='n')
-      if (i > nrow * ncol)
+      plot(1, ann=F, bty='n',type='n',xaxt='n',yaxt='n')
+      if (i == nrow)
       {
-        legend(x="topleft", legend=c("Modified", "Initial", "Other"), density=c(20, 20, -1), angle=c(135, 45, 45), horiz=T, cex=cex.legend)
+        legend("topleft", legend=c("Modified", "Initial", "Other"), density=c(20, 20, -1), angle=c(135, 45, 45), horiz=T, cex=cex.legend)
       }
     }
-  }
-  
-  dev.off()
+  }  
+  #dev.off()
 }
 )
