@@ -6,8 +6,9 @@ export(AlphaNP, AlphaMLE, ParMLE, JMLE, Qrefine, CDL)
 
 # Import all packages listed as Imports or Depends
 import(
-  BB,
-  R.oo
+       BB,
+       R.oo,
+       R.methodsS3
 )
 
 # Register the S3Methods
