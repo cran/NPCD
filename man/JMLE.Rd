@@ -3,19 +3,19 @@
 
 \title{Joint maximum likelihood estimation of item parameters and examinee attribute profiles}
 \description{
-  This function returns joint maximum likelihood estimates of item parameters and examinee attribute profiles in cognitive diagnostic models. The algorithm starts from the nonparametric estimation of attribute profiles, implemented by the \code{AlphaNP} function, and then iteratively estimates item parameters and attribute profiles using conditional maximum likelihood estimation until the algorithm converges. Currently supported models include the DINA model, the DINO model, and the NIDA model.}
+  This function returns joint maximum likelihood estimates of item parameters and examinee attribute profiles in cognitive diagnostic models. The algorithm starts from the nonparametric estimation of attribute profiles, implemented by the \code{AlphaNP} function, and then iteratively estimates item parameters and attribute profiles using conditional maximum likelihood estimation until the algorithm converges. Currently supported models include the DINA model, the DINO model, he NIDA model, the G-NIDA model, and the R-RUM model.}
 
 \usage{
-JMLE(Y, Q, model = c("DINA", "DINO", "NIDA"), NP.method = c("Weighted", 
-"Hamming", "Penalized"), wg=1, ws=1, conv.crit.par = 0.001, 
-conv.crit.att = 0.01, max.ite = 100)
+JMLE(Y, Q, model = c("DINA", "DINO", "NIDA", "GNIDA", "RRUM"), 
+NP.method = c("Weighted", "Hamming", "Penalized"), wg=1, ws=1, 
+conv.crit.par = 0.001, conv.crit.att = 0.01, max.ite = 100)
 }
 \arguments{
   \item{Y}{A matrix of binary responses. Rows represent persons and columns represent items. 1=correct, 0=incorrect.
 }
   \item{Q}{The Q-matrix of the test. Rows represent items and columns represent attributes. 1=attribute required by the item, 0=attribute not required by the item.
 }
-  \item{model}{Currently support three models: \code{"DINA"}, \code{"DINO"}, and \code{"NIDA"}. The default is \code{"DINA"}.
+  \item{model}{Currently support three models: \code{"DINA"}, \code{"DINO"}, \code{"NIDA"}, \code{"GNIDA"}, and \code{"RRUM"}. The default is \code{"DINA"}.
 }
   \item{NP.method}{The method of the nonparametric estimation in the initial stage. \code{"Hamming"}: the plain Hamming distance method; \code{"Weighted"}: the Hamming distance weighted by inversed item variance; \code{"Penalized"}: the Hamming distance weighted by inversed item variance and specified penalizing weights for guess and slip. The default is \code{"Weighted"}.
 }
@@ -33,7 +33,7 @@ conv.crit.att = 0.01, max.ite = 100)
 
 \value{
   \item{alpha.est}{JMLE estimates of examinee attribute profiles. Rows represent persons and columns represent attributes. 1=examinee masters the attribute, 0=examinee does not master the attribute.}
-  \item{par.est}{JMLE estimates of item parameters, including \code{par.est$slip}, \code{par.est$guess}, \code{par.est$se.slip}, and \code{par.est$se.guess}.}
+  \item{par.est}{JMLE estimates of item parameters, including \code{par.est$slip}, \code{par.est$guess}, \code{par.est$se.slip}, and \code{par.est$se.guess} for the DINA, DINO, NIDA, and GNIDA models, and \code{par.est$pi}, \code{par.est$r}, \code{par.est$se.pi} and \code{par.est$se.r} for the R-RUM model. Note that for the G-NIDA model and the R-RUM model, the item parameter estimates and standard errors are not available for the entries where the Q-matrix is 0.}
   \item{n.tie}{Number of ties in the final log-likelihood among the candidate attribute profiles for each person. When we encounter ties, one of the tied attribute profiles is randomly chosen.}
   \item{undefined.flag}{A binary vector indicating whether the parameters of each item are undefined. 1=undefined, 0=defined.}
   \item{loglike}{The final overall log-likelihood value from the estimated item parameters and attribute profiles based on the specified model.}
@@ -45,6 +45,8 @@ conv.crit.att = 0.01, max.ite = 100)
   \item{NP.alpha.est}{The estimates of examinee attribute profiles from the initial nonparameteric estimation.}
   \item{NP.est.class}{The class number (row index in \code{pattern}) for each person's attribute profile from the initial nonparametric classification. It can also be used for locating the loss function value in \code{NP.loss.matrix} for the estimated attribute profile for each person.}
   \item{pattern}{All possible attribute profiles in the search space.}
+  \item{model}{The chosen model.}
+  \item{Q}{The Q-matrix of the test.}
 }
 
 \seealso{
@@ -53,8 +55,9 @@ conv.crit.att = 0.01, max.ite = 100)
 
 \references{
 Chiu, C. (2011). \emph{Flexible approaches to cognitive diagnosis: nonparametric methods and small sample techniques}. Invited session of cognitive diagnosis and item response theory at 2011 Joint Statistical Meeting.
-Chiu, C. Y., & Douglas, J. A. (In press). A model-free approach to cognitive diagnosis by proximity
-to ideal response patterns. \emph{Journal of Classification}.
+
+Chiu, C. Y., & Douglas, J. A. (2013). A nonparametric approach to cognitive diagnosis by proximity
+to ideal response patterns. \emph{Journal of Classification 30}(2), 225-250.
 }
 
 \examples{

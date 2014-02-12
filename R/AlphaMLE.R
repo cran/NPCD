@@ -15,7 +15,11 @@
 #                   par$guess: a vector of guessing parameters for each item  #
 #          NIDA --- par$slip: a vector of slip parameters for each attributes #
 #                   par$guess: a vector of slip parameters for each attributes#
-# (4) model: "DINA", "DINO", "NIDA"                                           #
+#          GNIDA --- par$slip: a matrix (item by attribute) of slip parameters#
+#                    par$guess: a matrix (item by attribute) of guess param.  #
+#          RRUM --- par$pi: a vector of the pi parameters for each item       #
+#                   par$r: a matrix (# items by # attributes) of r parameters #
+# (4) model: "DINA", "DINO", "NIDA", "GNIDA", "RRUM"                          #
 # (5) NP.method: "Hamming", "Weighted", "Penalized"                           #
 # (6) undefined.flag: a binary vector indicating whether the parameters of    #
 #                     each item are undefined (1=undefined, 0=defined).       #
@@ -29,7 +33,7 @@
 #                                                                             #
 ###############################################################################
 
-AlphaMLE <- function(Y, Q, par, model=c("DINA", "DINO", "NIDA"), undefined.flag=NULL) {
+AlphaMLE <- function(Y, Q, par, model=c("DINA", "DINO", "NIDA", "GNIDA", "RRUM"), undefined.flag=NULL) {
   
   #####
   # 1 #
@@ -55,6 +59,7 @@ AlphaMLE <- function(Y, Q, par, model=c("DINA", "DINO", "NIDA"), undefined.flag=
   alpha.est <- matrix(NA, nperson, natt)
   est.class <- rep(NA, nperson)
   n.tie <- rep(0, nperson)
+  class.tie <- matrix(0, nperson, dim(pattern)[1])
   
   for (i in 1:nperson)
   {
@@ -71,12 +76,13 @@ AlphaMLE <- function(Y, Q, par, model=c("DINA", "DINO", "NIDA"), undefined.flag=
       est.class[i] <- which(loglike == max(loglike))
     } else {
       n.tie[i] <- length(which(loglike == max(loglike)))
+      class.tie[i, 1:sum(loglike == max(loglike))] <- which(loglike == max(loglike))
       est.class[i] <- sample(which(loglike == max(loglike)), 1)      
     }
     alpha.est[i, ] <- pattern[est.class[i], ]
   }  
   
-  output <- list(alpha.est=alpha.est, est.class=est.class, pattern=pattern, n.tie=n.tie, loglike.matrix=loglike.matrix)
+  output <- list(alpha.est=alpha.est, est.class=est.class, pattern=pattern, n.tie=n.tie, class.tie=class.tie, loglike.matrix=loglike.matrix)
   class(output) <- "AlphaMLE"
   return(output)
 }

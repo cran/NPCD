@@ -3,11 +3,12 @@
 
 \title{Log-likelihood for cognitive diagnostic models}
 \description{
-  This function returns the log-likelihood of a particular examinee's responses to a set of cognitive diagnostic items. Currently supported cognitive diagnostic models include DINA model, DINO model, and NIDA model. This function is called by the \code{AlphaMLE} function and the \code{JMLE} function in the package.
+  This function returns the log-likelihood of a particular examinee's responses to a set of cognitive diagnostic items. Currently supported cognitive diagnostic models include the DINA model, DINO model, NIDA model, G-NIDA model, and R-RUM model. This function is called by the \code{AlphaMLE} function and the \code{JMLE} function in the package.
 }
 
 \usage{
-CDL(Y, Q, par, alpha, model = "DINA", undefined.flag)
+CDL(Y, Q, par, alpha, model = c("DINA", "DINO", "NIDA", "GNIDA", "RRUM"), 
+undefined.flag)
 }
 \arguments{
   \item{Y}{A vector of binary examinee responses. 1=correct, 0=incorrect.
@@ -19,10 +20,14 @@ CDL(Y, Q, par, alpha, model = "DINA", undefined.flag)
                    \code{par$guess}: a vector of guessing parameters for each item.  
           NIDA --- \code{par$slip}: a vector of slipping parameters for each attribute; 
                    \code{par$guess}: a vector of guessing parameters for each attribute.
+          GNIDA --- \code{par$slip}: a matrix (items by attributes) of slipping parameters; 
+                   \code{par$guess}: a matrix (items by attributes) of guessing parameters.
+          RRUM --- \code{par$pi}: a vector of pi parameters for each item;
+                   \code{par$r}: a matrix (items by attributes) of r parameters.  
 }
   \item{alpha}{A vector of examinee ability profile. 1=examinee masters the attribute, 0=examinee does not master the attribute.
 }
-  \item{model}{Currently supports three models: \code{"DINA"}, \code{"DINO"}, and \code{"NIDA"}. The default is \code{"DINA"}.
+  \item{model}{Currently supports three models: \code{"DINA"}, \code{"DINO"}, \code{"NIDA"}, \code{"GNIDA"}, and \code{"RRUM"}. The default is \code{"DINA"}.
 }
   \item{undefined.flag}{A binary vector indicating whether the parameters of each item are undefined. 1=undefined, 0=defined.
 }

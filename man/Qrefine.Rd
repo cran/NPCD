@@ -32,7 +32,7 @@ Qrefine(Y, Q, gate=c("AND", "OR"), max.ite = 50)
 }
 
 \references{
-Chiu, C. Y. (In press). Statistical Refinement of the Q-matrix in Cognitive Diagnosis. \emph{Applied Psychological Measurement}.
+  Chiu, C. Y. (2013). Statistical Refinement of the Q-matrix in Cognitive Diagnosis. \emph{Applied Psychological Measurement, 37}(8), 598-618. 
 }
 
 \examples{

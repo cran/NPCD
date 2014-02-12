@@ -3,7 +3,7 @@
 
 \title{Nonparametric estimation of attribute profiles}
 \description{
-  This function estimates attribute profiles using nonparametric approaches for both the "AND gate" and the "OR gate" cognitive diagnostic models. These algorithms select the attribute profile with the smallest loss function value (plain, weighted, or penalized Hamming distance, see below for details) as the estimate. If more than one attribute profiles have the smallest loss function value, one of them is randomly chosen.
+  This function estimates attribute profiles using nonparametric approaches for both the "AND gate" (conjunctive) and the "OR gate" (disjunctive) cognitive diagnostic models. These algorithms select the attribute profile with the smallest loss function value (plain, weighted, or penalized Hamming distance, see below for details) as the estimate. If more than one attribute profiles have the smallest loss function value, one of them is randomly chosen.
 }
 
 \usage{
@@ -41,8 +41,8 @@ AlphaNP(Y, Q, gate = c("AND", "OR"), method = c("Hamming", "Weighted",
 \references{
 Chiu, C. (2011). \emph{Flexible approaches to cognitive diagnosis: nonparametric methods and small sample techniques}. Invited session of cognitive diagnosis and item response theory at 2011 Joint Statistical Meeting.
 
-Chiu, C. Y., & Douglas, J. A. (In press). A model-free approach to cognitive diagnosis by proximity
-to ideal response patterns. \emph{Journal of Classification}.
+Chiu, C. Y., & Douglas, J. A. (2013). A nonparametric approach to cognitive diagnosis by proximity
+to ideal response patterns. \emph{Journal of Classification 30}(2), 225-250.
 }
 
 \examples{

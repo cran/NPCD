@@ -3,11 +3,12 @@
 
 \title{Maximum likelihood estimation of attribute profile}
 \description{
-  This function returns the model-based Maximum likelihood estimator(s) of the cognitive diagnostic attribute profile(s). Currently supported cognitive diagnostic models include the DINA model, the DINO model, and the NIDA model.
+  This function returns the model-based Maximum likelihood estimator(s) of the cognitive diagnostic attribute profile(s). Currently supported cognitive diagnostic models include the DINA, DINO, NIDA, GNIDA, and R-RUM models.
 }
 
 \usage{
-AlphaMLE(Y, Q, par, model = c("DINA", "DINO", "NIDA"), undefined.flag = NULL)
+AlphaMLE(Y, Q, par, model = c("DINA", "DINO", "NIDA", "GNIDA", "RRUM"),
+undefined.flag = NULL)
 }
 
 \arguments{
@@ -20,10 +21,14 @@ AlphaMLE(Y, Q, par, model = c("DINA", "DINO", "NIDA"), undefined.flag = NULL)
                    \code{par$guess}: a vector of guessing parameters for each item.  
           NIDA --- \code{par$slip}: a vector of slipping parameters for each attribute; 
                    \code{par$guess}: a vector of guessing parameters for each attribute.
+          GNIDA --- \code{par$slip}: a matrix (items by attributes) of slipping parameters; 
+                   \code{par$guess}: a matrix (items by attributes) of guessing parameters.
+          RRUM --- \code{par$pi}: a vector of pi parameters for each item;
+                   \code{par$r}: a matrix (items by attributes) of r parameters.                   
 }
-  \item{model}{Currently supports three models: \code{"DINA"}, \code{"DINO"}, and \code{"NIDA"}. The default is \code{"DINA"}.
+  \item{model}{Currently supports three models: \code{"DINA"}, \code{"DINO"}, \code{"NIDA"}, \code{"GNIDA"}, and \code{"RRUM"}. The default is \code{"DINA"}.
 }
-  \item{undefined.flag}{A binary vector indicating whether the parameters of each item are undefined. 1=undefined, 0=defined.  Generally, this argument is only needed in \code{"JMLE"}, where the data may generate undefined item parameters for some items.
+  \item{undefined.flag}{A binary vector indicating whether the parameters of each item are undefined. 1=undefined, 0=defined.  Generally, this argument is only needed in \code{"JMLE"} for the DINA and DINO models, where the data may generate undefined item parameters for some items.
 }
 }
 
@@ -31,6 +36,7 @@ AlphaMLE(Y, Q, par, model = c("DINA", "DINO", "NIDA"), undefined.flag = NULL)
   \item{alpha.est}{A matrix of estimated attribute profiles for all examinees. Rows represent persons and columns represent attributes. 1=examinee masters the attribute, 0=examinee does not master the attribute.}
   \item{est.class}{The class number (row index in \code{pattern}) for each person's attribute profile. It can also be used for locating the log-likelihood value in \code{loglike.matrix} for the estimated attribute profile for each person.}
   \item{n.tie}{Number of ties in the log-likelihood among the candidate attribute profiles for each person. When we encounter ties, one of the tied attribute profiles is randomly chosen.}
+  \item{class.tie}{The class numbers (row index in \code{pattern}) of the tied patterns for each person.}
   \item{pattern}{All possible attribute profiles in the search space.}
   \item{loglike.matrix}{The matrix of the log-likelihood function values. Rows represent candidate attribute profiles in the same order with the pattern matrix; columns represent different examinees.}
 }
