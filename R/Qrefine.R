@@ -32,6 +32,8 @@
 Qrefine <- function(Y, Q, gate=c("AND", "OR"), max.ite=50)
 {
   gate <- match.arg(gate)
+  Y <- as.matrix(Y)
+  Q <- as.matrix(Q)
   initial.Q <- Q
   nitem <- dim(Q)[1]
   natt <- dim(Q)[2]
@@ -40,6 +42,7 @@ Qrefine <- function(Y, Q, gate=c("AND", "OR"), max.ite=50)
   RSS <- NULL
   
   pattern <- AlphaPermute(natt)
+  pattern.Q <- pattern[-1,]
   
   # We may need to run the searching a couple of times until all RSS of all items are stationay.
   
@@ -49,8 +52,6 @@ Qrefine <- function(Y, Q, gate=c("AND", "OR"), max.ite=50)
     cat("\n")
     
     max.rss.item <- NULL
-    temp.aar <- NULL
-    temp.par <- NULL
     
     for (k in 1:nitem) 
     {
@@ -79,16 +80,16 @@ Qrefine <- function(Y, Q, gate=c("AND", "OR"), max.ite=50)
       
       update.rss <- NULL
       
-      for (i in 1:M)
+      for (i in 1:(M - 1))
       {
-        u <- apply(t(pattern[est.class, ]) ^ pattern[i, ], 2, prod)
+        u <- apply(t(pattern[est.class, ]) ^ pattern.Q[i, ], 2, prod)
         temp.rss <- sum((Y[, max.rss] - u) ^ 2)
         update.rss <- c(update.rss, temp.rss)
       }
       
       min.update.rss <- which(update.rss == min(update.rss))
       if (length(min.update.rss) > 1) min.update.rss <- sample(min.update.rss, 1)
-      update.q <- pattern[min.update.rss, ]
+      update.q <- pattern.Q[min.update.rss, ]
       Q[max.rss, ] <- update.q
     }
     

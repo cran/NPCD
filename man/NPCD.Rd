@@ -15,8 +15,8 @@
   \tabular{ll}{
     Package: \tab \code{NPCD}\cr
     Type: \tab Package\cr
-    Version: \tab 1.0-5\cr
-    Date: \tab 2014-02-12\cr
+    Version: \tab 1.0-6\cr
+    Date: \tab 2014-05-02\cr
     License: \tab \acronym{LGPL} (>= 2.1)\cr
     Depends: \tab R (>= 2.14.2), BB, R.oo
   }
