@@ -15,8 +15,8 @@
   \tabular{ll}{
     Package: \tab \code{NPCD}\cr
     Type: \tab Package\cr
-    Version: \tab 1.0-6\cr
-    Date: \tab 2014-05-02\cr
+    Version: \tab 1.0-7\cr
+    Date: \tab 2014-12-03\cr
     License: \tab \acronym{LGPL} (>= 2.1)\cr
     Depends: \tab R (>= 2.14.2), BB, R.oo
   }
@@ -33,9 +33,9 @@ The aim of the NPCD package is to provide an easy-to-use tool to analyze cogniti
 }
 
 \author{
-  Yi Zheng (University of Illinois at Urbana-Champaign) and Chia-Yi Chiu (Rutgers, the State University of New Jersey)
+  Yi Zheng (Arizona State University) and Chia-Yi Chiu (Rutgers, the State University of New Jersey)
   
-  Maintainer: Yi Zheng <yizheng1@illinois.edu>
+  Maintainer: Yi Zheng <yi.isabel.zheng@asu.edu>
 }
 
 \references{
