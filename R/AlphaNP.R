@@ -96,13 +96,13 @@ AlphaNP <- function(Y, Q, gate=c("AND", "OR"), method=c("Hamming", "Weighted", "
   {
     p.bar <- apply(Y, 2, mean)
     weight <- 1 / (p.bar * (1 - p.bar))
-    weight[weight > 0.95 * 0.05] <- 0.95 * 0.05
+    weight[weight > 1 / (0.95 * 0.05)] <- 1 / (0.95 * 0.05)
     ws <- wg <- 1
   } else if (method == "Penalized") 
   {
     p.bar <- apply(Y, 2, mean)
     weight <- 1 / (p.bar * (1 - p.bar))  
-    weight[weight > 0.95 * 0.05] <- 0.95 * 0.05  
+    weight[weight > 1 / (0.95 * 0.05)] <- 1 / (0.95 * 0.05)  
     if (ws == wg) warning("Penalzing weights for guess and slip are the same --> equivalent with the \"Weighted\" method.")
   } else 
   {
