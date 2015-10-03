@@ -11,8 +11,8 @@
 # (3) par: a list of parameters.                                              #
 #          DINA&DINO --- par$slip: a vector of slip parameters for each item  #
 #                   par$guess: a vector of guessing parameters for each item  #
-#          NIDA --- par$slip: a vector of slip parameters for each attributes #
-#                   par$guess: a vector of slip parameters for each attributes#
+#          NIDA --- par$slip: a vector of slip parameters for each attribute  #
+#                   par$guess: a vector of guess parameters for each attribute#
 #          GNIDA --- par$slip: a matrix (item by attribute) of slip parameters#
 #                    par$guess: a matrix (item by attribute) of guess param.  #
 #          RRUM --- par$pi: a vector of the pi parameters for each item       #

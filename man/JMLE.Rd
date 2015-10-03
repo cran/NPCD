@@ -15,7 +15,7 @@ conv.crit.par = 0.001, conv.crit.att = 0.01, max.ite = 100)
 }
   \item{Q}{The Q-matrix of the test. Rows represent items and columns represent attributes. 1=attribute required by the item, 0=attribute not required by the item.
 }
-  \item{model}{Currently support three models: \code{"DINA"}, \code{"DINO"}, \code{"NIDA"}, \code{"GNIDA"}, and \code{"RRUM"}. The default is \code{"DINA"}.
+  \item{model}{Currently support five models: \code{"DINA"}, \code{"DINO"}, \code{"NIDA"}, \code{"GNIDA"}, and \code{"RRUM"}. The default is \code{"DINA"}.
 }
   \item{NP.method}{The method of the nonparametric estimation in the initial stage. \code{"Hamming"}: the plain Hamming distance method; \code{"Weighted"}: the Hamming distance weighted by inversed item variance; \code{"Penalized"}: the Hamming distance weighted by inversed item variance and specified penalizing weights for guess and slip. The default is \code{"Weighted"}.
 }
@@ -68,4 +68,5 @@ print(JMLE.result)  # Print the estimated item parameters, standard errors,
 #and examinee attribute profiles
 plot(JMLE.result, nperson=1)   # Plot the sorted loss function of different 
 #attribute profiles for this examinee
+ItemFit(JMLE.result)
 }

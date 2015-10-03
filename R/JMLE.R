@@ -154,7 +154,7 @@ JMLE <- function(Y, Q, model=c("DINA", "DINO", "NIDA", "GNIDA", "RRUM"),
                  loglike=loglike, convergence=conv, n.ite=ite, loglike.matrix=loglike.matrix, 
                  est.class=alpha.out.MLE$est.class, NP.loss.matrix=loss.matrix, 
                  NP.alpha.est=alpha.est.NP$alpha.est, NP.method=NP.method, 
-                 NP.est.class=alpha.est.NP$est.class, pattern=alpha.est.NP$pattern, model=model, Q=Q)
+                 NP.est.class=alpha.est.NP$est.class, pattern=alpha.est.NP$pattern, model=model, Q=Q, Y=Y)
   class(output) <- "JMLE"
   return(output)
   

@@ -27,7 +27,7 @@ undefined.flag)
 }
   \item{alpha}{A vector of examinee ability profile. 1=examinee masters the attribute, 0=examinee does not master the attribute.
 }
-  \item{model}{Currently supports three models: \code{"DINA"}, \code{"DINO"}, \code{"NIDA"}, \code{"GNIDA"}, and \code{"RRUM"}. The default is \code{"DINA"}.
+  \item{model}{Currently supports five models: \code{"DINA"}, \code{"DINO"}, \code{"NIDA"}, \code{"GNIDA"}, and \code{"RRUM"}. The default is \code{"DINA"}.
 }
   \item{undefined.flag}{A binary vector indicating whether the parameters of each item are undefined. 1=undefined, 0=defined.
 }

@@ -82,4 +82,7 @@ nperson <- 1   # Choose an examinee to investigate
 print(alpha.est.NP.H) # Print the estimated examinee attribute profiles
 plot(alpha.est.NP.H, nperson)   # Plot the sorted loss function of different 
 #attribute profiles for this examinee
+ItemFit(alpha.est.NP.H, model="DINA", par=list(slip=slip, guess=guess))
+ItemFit(alpha.est.NP.W, model="DINA", par=list(slip=slip, guess=guess))
+ItemFit(alpha.est.NP.P, model="DINA", par=list(slip=slip, guess=guess))
 }

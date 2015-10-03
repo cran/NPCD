@@ -246,8 +246,8 @@ ParMLE <- function(Y, Q, alpha, model=c("DINA", "DINO", "NIDA", "GNIDA", "RRUM")
     return(warning("Model specification is not valid."))
   }
    
-  if (model %in% c("DINA", "DINO", "NIDA", "GNIDA")) output <- list(slip=slip, guess=guess, se.slip=se.slip, se.guess=se.guess, model=model, Q=Q)
-  if (model == "RRUM") output <- list(pi=pi, r=r, se.pi=se.pi, se.r=se.r, model=model, Q=Q)
+  if (model %in% c("DINA", "DINO", "NIDA", "GNIDA")) output <- list(slip=slip, guess=guess, se.slip=se.slip, se.guess=se.guess, model=model, Q=Q, Y=Y, alpha=alpha)
+  if (model == "RRUM") output <- list(pi=pi, r=r, se.pi=se.pi, se.r=se.r, model=model, Q=Q, Y=Y, alpha=alpha)
 
   class(output) <- "ParMLE"
   return(output)

@@ -26,7 +26,7 @@ undefined.flag = NULL)
           RRUM --- \code{par$pi}: a vector of pi parameters for each item;
                    \code{par$r}: a matrix (items by attributes) of r parameters.                   
 }
-  \item{model}{Currently supports three models: \code{"DINA"}, \code{"DINO"}, \code{"NIDA"}, \code{"GNIDA"}, and \code{"RRUM"}. The default is \code{"DINA"}.
+  \item{model}{Currently supports five models: \code{"DINA"}, \code{"DINO"}, \code{"NIDA"}, \code{"GNIDA"}, and \code{"RRUM"}. The default is \code{"DINA"}.
 }
   \item{undefined.flag}{A binary vector indicating whether the parameters of each item are undefined. 1=undefined, 0=defined.  Generally, this argument is only needed in \code{"JMLE"} for the DINA and DINO models, where the data may generate undefined item parameters for some items.
 }
@@ -80,4 +80,5 @@ nperson <- 1   # Choose an examinee to investigate
 print(alpha.est.MLE)   # Print the estimated examinee attribute profiles
 plot(alpha.est.MLE, nperson)   # Plot the sorted log-likelihood function 
 #of different attribute profiles for this examinee
+ItemFit(alpha.est.MLE)
 }

@@ -133,7 +133,7 @@ AlphaNP <- function(Y, Q, gate=c("AND", "OR"), method=c("Hamming", "Weighted", "
   
   est.pattern <- pattern[est.class,]
   est.ideal <- Ideal[est.class,]
-  output <- list(alpha.est=est.pattern, est.ideal=est.ideal, est.class=est.class, n.tie=n.tie, pattern=pattern, loss.matrix=loss.matrix, method=method)
+  output <- list(alpha.est=est.pattern, est.ideal=est.ideal, est.class=est.class, n.tie=n.tie, pattern=pattern, loss.matrix=loss.matrix, method=method, Q=Q, Y=Y)
   class(output) <- "AlphaNP"
   return(output)
 }

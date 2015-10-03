@@ -16,7 +16,7 @@ ParMLE(Y, Q, alpha, model = c("DINA", "DINO", "NIDA", "GNIDA", "RRUM"))
 }
   \item{alpha}{Examinee attribute profiles. Rows represent persons and columns represent attributes. 1=examinee masters the attribute, 0=examinee does not master the attribute.
 }
-  \item{model}{Currently support three models: \code{"DINA"}, \code{"DINO"}, \code{"NIDA"}, \code{"GNIDA"}, and \code{"RRUM"}. The default is \code{"DINA"}.
+  \item{model}{Currently support five models: \code{"DINA"}, \code{"DINO"}, \code{"NIDA"}, \code{"GNIDA"}, and \code{"RRUM"}. The default is \code{"DINA"}.
 }
 }
 
@@ -78,5 +78,5 @@ for (i in 1:nperson) {
 
 parMLE.result <- ParMLE(data, Q, alpha, model="DINA")
 print(parMLE.result)  # Print the estimated item parameters and standard errors
-
+ItemFit(parMLE.result)
 }

@@ -82,7 +82,7 @@ AlphaMLE <- function(Y, Q, par, model=c("DINA", "DINO", "NIDA", "GNIDA", "RRUM")
     alpha.est[i, ] <- pattern[est.class[i], ]
   }  
   
-  output <- list(alpha.est=alpha.est, est.class=est.class, pattern=pattern, n.tie=n.tie, class.tie=class.tie, loglike.matrix=loglike.matrix)
+  output <- list(alpha.est=alpha.est, est.class=est.class, pattern=pattern, n.tie=n.tie, class.tie=class.tie, loglike.matrix=loglike.matrix, Y=Y, Q=Q, par=par, model=model)
   class(output) <- "AlphaMLE"
   return(output)
 }
