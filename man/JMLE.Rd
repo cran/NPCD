@@ -69,4 +69,5 @@ print(JMLE.result)  # Print the estimated item parameters, standard errors,
 plot(JMLE.result, nperson=1)   # Plot the sorted loss function of different 
 #attribute profiles for this examinee
 ItemFit(JMLE.result)
+ModelFit(JMLE.result)
 }

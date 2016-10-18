@@ -43,6 +43,10 @@ JMLE <- function(Y, Q, model=c("DINA", "DINO", "NIDA", "GNIDA", "RRUM"),
     
   Y <- as.matrix(Y)
   Q <- as.matrix(Q)
+  nitem <- nrow(Q)
+  natt <- ncol(Q)
+  nperson <- nrow(Y)
+
   check <- NULL
   check <- CheckInput(Y, Q)  
   if (!is.null(check)) return(warning(check))
@@ -80,7 +84,6 @@ JMLE <- function(Y, Q, model=c("DINA", "DINO", "NIDA", "GNIDA", "RRUM"),
   while (((max(d.par) > conv.crit.par & d.att > 0) || d.undefined > 0 || (d.att > conv.crit.att & max(d.par) > 0)) & ite < max.ite)
   {
     ite <- ite + 1
-    nitem <- dim(Y)[2]
    
     # MLE of item parameters
     
@@ -149,9 +152,18 @@ JMLE <- function(Y, Q, model=c("DINA", "DINO", "NIDA", "GNIDA", "RRUM"),
   
   if (ite == max.ite) conv <- "Maximum iteration reached."
   if (max(d.par) > conv.crit.par & d.att == 0) conv <- "Examinee profile has stabilized except for randomness from ties."
+  
+  # AIC and BIC model fit statistics
+  
+  if (model %in% c("DINA", "DINO")) npar <- 2 * nitem + 2 ^ natt - 1
+  if (model == "NIDA") npar <- 2 * natt + 2 ^ natt - 1
+  if (model == "GNIDA") npar <- 2 * natt * nitem + 2 ^ natt - 1
+  if (model == "RRUM") npar <- nitem * (natt + 1) + 2 ^ natt - 1
+  AIC <- -2 * loglike + 2 * npar
+  BIC <- -2 * loglike + npar * log(nperson)
     
   output <- list(alpha.est=alpha.est, par.est=par.est, n.tie=alpha.out.MLE$n.tie, undefined.flag=undefined.flag, 
-                 loglike=loglike, convergence=conv, n.ite=ite, loglike.matrix=loglike.matrix, 
+                 loglike=loglike, convergence=conv, n.ite=ite, AIC=AIC, BIC=BIC, loglike.matrix=loglike.matrix, 
                  est.class=alpha.out.MLE$est.class, NP.loss.matrix=loss.matrix, 
                  NP.alpha.est=alpha.est.NP$alpha.est, NP.method=NP.method, 
                  NP.est.class=alpha.est.NP$est.class, pattern=alpha.est.NP$pattern, model=model, Q=Q, Y=Y)

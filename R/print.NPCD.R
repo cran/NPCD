@@ -160,6 +160,7 @@ setMethodS3("print", "JMLE", function(x, ...)
   cat(paste(paste("Number of iterations:", x$n.ite), "\n"))
   cat("The Estimated Item Parameters\n")  
   print(out)
+  cat(sprintf("\nModel Fit Statistics: AIC = %.2f, BIC = %.2f\n", x$AIC, x$BIC))  
   
   # Examinee attribute profiles
   

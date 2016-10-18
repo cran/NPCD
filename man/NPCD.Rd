@@ -15,8 +15,8 @@
   \tabular{ll}{
     Package: \tab \code{NPCD}\cr
     Type: \tab Package\cr
-    Version: \tab 1.0-9\cr
-    Date: \tab 2015-10-2\cr
+    Version: \tab 1.0-10\cr
+    Date: \tab 2016-10-15\cr
     License: \tab \acronym{LGPL} (>= 2.1)\cr
     Depends: \tab R (>= 2.14.2), BB, R.oo
   }
@@ -39,6 +39,8 @@ The aim of the NPCD package is to provide an easy-to-use tool to analyze cogniti
 }
 
 \references{
+  Chen, J. de la Torre, J., & Zhang, Z. (2013). Relative and absolute fit evaluation in cognitive diagnosis modeling. \emph{Journal of Educational Measurement, 50}, 123-140.
+  
   Chiu, C. Y. (2011). \emph{Flexible approaches to cognitive diagnosis: nonparametric methods and small sample techniques}. Invited session of cognitive diagnosis and item response theory at 2011 Joint Statistical Meeting.
   
   Chiu, C. Y., & Douglas, J. A. (2013). A nonparametric approach to cognitive diagnosis by proximity to ideal response patterns. \emph{Journal of Classification 30}(2), 225-250.

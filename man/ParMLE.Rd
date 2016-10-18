@@ -79,4 +79,5 @@ for (i in 1:nperson) {
 parMLE.result <- ParMLE(data, Q, alpha, model="DINA")
 print(parMLE.result)  # Print the estimated item parameters and standard errors
 ItemFit(parMLE.result)
+ModelFit(parMLE.result)
 }
