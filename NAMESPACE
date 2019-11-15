@@ -5,12 +5,8 @@
 export(AlphaNP, AlphaMLE, ParMLE, JMLE, Qrefine, CDL, CDP, ItemFit, ModelFit)
 
 # Import all packages listed as Imports or Depends
-import(
-       BB,
-       R.oo,
-       R.methodsS3
-)
-
+import(BB)
+import(R.methodsS3)
 importFrom("graphics", "barplot", "legend", "par", "plot")
 importFrom("stats", "pchisq")
 
